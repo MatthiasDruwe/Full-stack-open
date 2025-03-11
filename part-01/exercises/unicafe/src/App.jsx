@@ -18,6 +18,8 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const average = (good - bad) / (good + neutral + bad)
+  const positive = good / (good + neutral + bad) * 100
   const handleGoodClicked = () => setGood(good + 1)
   const handleNeutralClicked = () => setNeutral(neutral + 1)
   const handleBadClicked = () => setBad(bad + 1)
@@ -32,6 +34,9 @@ const App = () => {
       <Statistics text='good' value={good} />
       <Statistics text='neutral' value={neutral} />
       <Statistics text='bad' value={bad} />
+      <Statistics text='average' value={average} />
+      <Statistics text='positive' value={positive + '%'} />
+
     </div>
   )
 }
