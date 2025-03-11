@@ -13,8 +13,15 @@ const StatisticsLine = ({ text, value }) => {
 }
 
 const Statistics = ({ good, neutral, bad }) => {
-  const average = (good - bad) / (good + neutral + bad)
-  const positive = good / (good + neutral + bad) * 100
+
+  const total = good + neutral + bad
+  if (total === 0) {
+    return (
+      <p>No feedback given</p>
+    )
+  }
+  const average = (good - bad) / total
+  const positive = good / total * 100
 
   return (
     <p>
