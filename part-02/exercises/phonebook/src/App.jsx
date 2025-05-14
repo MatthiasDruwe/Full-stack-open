@@ -3,13 +3,21 @@ import { Person } from './components/Person'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    {
+      name: 'Arto Hellas',
+      number: '040-1234567'
+    }
   ])
 
   const [newName, setNewName] = useState('')
   const handleNewNameChange = (event) => {
     const name = event.target.value
     setNewName(name)
+  }
+  const [newNumber, setNewNumber] = useState('')
+  const handleNewNumberChange = (event) => {
+    const number = event.target.value
+    setNewNumber(number)
   }
 
   const addPerson = (event) => {
@@ -18,7 +26,8 @@ const App = () => {
     if (!persons.find(person => person.name === newName)) {
 
       const newPerson = {
-        name: newName
+        name: newName,
+        number: newNumber
       }
       setPersons(persons.concat(newPerson))
       setNewName('')
@@ -34,6 +43,9 @@ const App = () => {
       <form onSubmit={addPerson}>
         <div>
           name: <input onChange={handleNewNameChange} value={newName} />
+        </div>
+        <div>
+          number: <input onChange={handleNewNumberChange} value={newNumber} type='tel' />
         </div>
         <div>
           <button type='submit'>add</button>
