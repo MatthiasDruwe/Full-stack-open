@@ -1,8 +1,9 @@
 import Person from "./Person.jsx";
 
-const Persons = ({personsToShow}) => <>
+const Persons = ({personsToShow, deletePerson}) => <>
     {personsToShow.map(person => (
-        <Person key={person.name} name={person.name} number={person.number} />
+        <Person key={person.name} name={person.name} number={person.number}
+                onDeleteClicked={() => deletePerson(person.id)}/>
     ))}
 </>;
-export default Persons ;
+export default Persons;

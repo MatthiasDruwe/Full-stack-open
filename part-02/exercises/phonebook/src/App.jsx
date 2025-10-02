@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import Filter from "./components/Filter.jsx";
 import PersonForm from "./components/PersonForm.jsx";
 import Persons from "./components/Persons.jsx";
-import axios from "axios";
+import personService from "./services/person.js";
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -11,22 +11,37 @@ const App = () => {
     const [filter, setFilter] = useState('')
 
     useEffect(() => {
-        axios
-            .get('http://localhost:3001/persons')
+        personService
+            .getAll()
             .then(response => {
-                setPersons(response.data)
+                setPersons(response)
             })
     }, [])
 
     const addName = (event) => {
         event.preventDefault();
-        if(persons.some(person => person.name === newName)) {
+        if (persons.some(person => person.name === newName)) {
             alert(`${newName} is already added to phonebook`)
             return
         }
-        setPersons(persons.concat({ name: newName, number: newNumber }))
-        setNewName('')
-        setNewNumber('')
+        personService
+            .createPerson({name: newName, number: newNumber})
+            .then(response => {
+                setPersons(persons.concat(response))
+                setNewName('')
+                setNewNumber('')
+            })
+    }
+
+    const deletePerson = (id) => {
+        const user = persons.find(person => person.id === id)
+        if (window.confirm(`Delete ${user.name} ?`)) {
+            personService
+                .deletePerson(id)
+                .then(response => {
+                    setPersons(persons.filter(person => person.id !== response.id))
+                });
+        }
     }
 
     const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
@@ -39,7 +54,7 @@ const App = () => {
             <PersonForm onSubmit={addName} name={newName} setName={setNewName} number={newNumber}
                         setNumber={setNewNumber}/>
             <h2>Numbers</h2>
-            <Persons personsToShow={personsToShow}/>
+            <Persons personsToShow={personsToShow} deletePerson={deletePerson}/>
         </div>
     )
 }
