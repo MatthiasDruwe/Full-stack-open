@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Filter from "./components/Filter.jsx";
 import PersonForm from "./components/PersonForm.jsx";
 import Persons from "./components/Persons.jsx";
@@ -21,11 +21,18 @@ const App = () => {
     const addName = (event) => {
         event.preventDefault();
         if (persons.some(person => person.name === newName)) {
-            alert(`${newName} is already added to phonebook`)
+            let person = persons.find(person => person.name === newName);
+            console.log(person);
+            personService.updatePerson({id: person.id, number: newNumber}).
+                then(response => {
+                    person.number = response.number
+                    setNewName('')
+                    setNewNumber('')
+                })
             return
         }
         personService
-            .createPerson({name: newName, number: newNumber})
+            .createPerson({ name: newName, number: newNumber })
             .then(response => {
                 setPersons(persons.concat(response))
                 setNewName('')
@@ -49,12 +56,12 @@ const App = () => {
         <div>
             <h2>Phonebook</h2>
 
-            <Filter filter={filter} setFilter={setFilter}/>
+            <Filter filter={filter} setFilter={setFilter} />
             <h2>Add a new</h2>
             <PersonForm onSubmit={addName} name={newName} setName={setNewName} number={newNumber}
-                        setNumber={setNewNumber}/>
+                setNumber={setNewNumber} />
             <h2>Numbers</h2>
-            <Persons personsToShow={personsToShow} deletePerson={deletePerson}/>
+            <Persons personsToShow={personsToShow} deletePerson={deletePerson} />
         </div>
     )
 }
