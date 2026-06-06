@@ -23,13 +23,13 @@ const App = () => {
         if (persons.some(person => person.name === newName)) {
             let person = persons.find(person => person.name === newName);
             console.log(person);
-            personService.updatePerson({id: person.id, number: newNumber}).
+            personService.updatePerson({id: person.id, number: newNumber, name: person.name}).
                 then(response => {
                     person.number = response.number
                     setNewName('')
                     setNewNumber('')
                 })
-            return
+            return;
         }
         personService
             .createPerson({ name: newName, number: newNumber })
