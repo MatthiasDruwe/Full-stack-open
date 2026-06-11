@@ -1,5 +1,18 @@
+import { useEffect, useState } from "react";
+import weatherService from "../services/weather";
+
 const CountryDetail = ({ country }) => {
-  console.log(country.languages);
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    weatherService
+      .getWeather(country.latlng[0], country.latlng[1])
+      .then((response) => {
+        setWeather(response);
+        console.log(response);
+      });
+  }, []);
+  console.log(weather);
   return (
     <>
       <h1>{country.name.official}</h1>
@@ -14,6 +27,16 @@ const CountryDetail = ({ country }) => {
       </ul>
 
       <img src={country.flags.png} alt={country.flags.alt} />
+      {weather && (
+        <>
+          <h2>Weather in {country.name.official}</h2>
+          <p>Temperature {weather.main.temp}°C </p>
+          <img
+            src={`https://openweathermap.org/payload/api/media/file/${weather.weather[0].icon}.png`}
+          />
+          <p>Wind {weather.wind.speed} m/s</p>
+        </>
+      )}
     </>
   );
 };

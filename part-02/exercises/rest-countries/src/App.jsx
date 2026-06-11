@@ -48,6 +48,7 @@ function App() {
       <ul>
         {filteredCountries.map((country) => (
           <CountryItem
+            key={country.name.official}
             country={country}
             showCountry={() => showCountry(country)}
           />
