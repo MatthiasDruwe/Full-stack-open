@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import countryService from "./services/countries";
-import NoMatch from "./components/NoMatch";
-import Country from "./components/Country";
-import CountryList from "./components/CountryList";
+import CountryDetail from "./components/CountryDetail";
+import CountryItem from "./components/CountryItem";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -34,14 +33,27 @@ function App() {
 
   let content;
 
+  const showCountry = (country) => {
+    setSearch(country.name.official);
+  };
+
   if (hasExactMatch.length === 1) {
-    content = <Country country={hasExactMatch[0]} />;
+    content = <CountryDetail country={hasExactMatch[0]} />;
   } else if (filteredCountries.length === 1) {
-    content = <Country country={filteredCountries[0]} />;
+    content = <CountryDetail country={filteredCountries[0]} />;
   } else if (filteredCountries.length > 10) {
-    content = <NoMatch />;
+    content = <p>Too many matches, specify another filter</p>;
   } else if (filteredCountries.length > 0) {
-    content = <CountryList countries={filteredCountries} />;
+    content = (
+      <ul>
+        {filteredCountries.map((country) => (
+          <CountryItem
+            country={country}
+            showCountry={() => showCountry(country)}
+          />
+        ))}
+      </ul>
+    );
   } else {
     content = <p>No Country found</p>;
   }

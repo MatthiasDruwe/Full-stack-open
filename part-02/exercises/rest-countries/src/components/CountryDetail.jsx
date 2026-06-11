@@ -1,4 +1,4 @@
-const Country = ({ country }) => {
+const CountryDetail = ({ country }) => {
   console.log(country.languages);
   return (
     <>
@@ -18,4 +18,4 @@ const Country = ({ country }) => {
   );
 };
 
-export default Country;
+export default CountryDetail;
