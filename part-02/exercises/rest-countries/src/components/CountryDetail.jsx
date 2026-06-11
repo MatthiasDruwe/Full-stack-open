@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import weatherService from "../services/weather";
+import { useEffect, useState } from "react"
+import weatherService from "../services/weather"
 
 const CountryDetail = ({ country }) => {
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState(null)
 
   useEffect(() => {
     weatherService
       .getWeather(country.latlng[0], country.latlng[1])
       .then((response) => {
-        setWeather(response);
-        console.log(response);
-      });
-  }, []);
-  console.log(weather);
+        setWeather(response)
+      })
+  }, [])
+
   return (
     <>
       <h1>{country.name.official}</h1>
@@ -41,4 +40,4 @@ const CountryDetail = ({ country }) => {
   );
 };
 
-export default CountryDetail;
+export default CountryDetail

@@ -4,7 +4,7 @@ const CountryItem = ({ country, showCountry }) => {
       {country.name.official}&nbsp;
       <button onClick={showCountry}>show</button>
     </li>
-  );
-};
+  )
+}
 
-export default CountryItem;
+export default CountryItem
